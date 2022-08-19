@@ -3,44 +3,48 @@ import java.io.*;
 enum TokenType{ NUM,SOMA, MULT,APar,FPar, EOF}
 
 class Token{
-  char lexema;
+  int lexema;
   TokenType token;
 
- Token (char l, TokenType t)
+ Token (int l, TokenType t)
  	{ lexema=l;token = t;}	
-
 }
 
-class AnaliseLexica {
+class AnaliseLexica{
 
-	BufferedReader arquivo;
+	PushbackReader arquivo;
 
-	AnaliseLexica(String a) throws Exception
-	{
-		
-	 	this.arquivo = new BufferedReader(new FileReader(a));
-		
+	AnaliseLexica(String a) throws Exception{		
+	 	this.arquivo = new PushbackReader(new FileReader(a));		
 	}
 
-	Token getNextToken() throws Exception
-	{	
+	Token getNextToken() throws Exception{
+	
 		Token token;
 		int eof = -1;
-		char currchar;
-		int currchar1;
+		char backchar, currchar;
+		int temp, currchar1;
 
 			do{
 				currchar1 =  arquivo.read();
 				currchar = (char) currchar1;
 			} while (currchar == '\n' || currchar == ' ' || currchar =='\t' || currchar == '\r');
 			
-			if(currchar1 != eof && currchar1 !=10)
-			{
-								
-	
-				if (currchar >= '0' && currchar <= '9')
-					return (new Token (currchar, TokenType.NUM));
-				else
+			if(currchar1 != eof && currchar1 !=10){	
+				if (currchar >= '0' && currchar <= '9'){
+					temp = Character.getNumericValue(currchar);
+					//return (new Token (currchar, TokenType.NUM));
+					while(currchar >= '0'&& currchar <= '9'){
+						backchar = currchar;
+						currchar = (char)arquivo.read();
+						if(currchar >= '0' && currchar <= '9'){
+							temp = Character.getNumericValue(currchar) + (temp * 10);
+						}else{
+							arquivo.unread((int)currchar);
+						}
+					}
+				return (new Token (temp, TokenType.NUM));
+				}else{
 					switch (currchar){
 						case '(':
 							return (new Token (currchar,TokenType.APar));
@@ -53,11 +57,9 @@ class AnaliseLexica {
 						
 						default: throw (new Exception("Caractere inválido: " + ((int) currchar)));
 					}
+				}
 			}
-
-			arquivo.close();
-			
-		return (new Token(currchar,TokenType.EOF));
-		
+			arquivo.close();			
+		return (new Token(currchar,TokenType.EOF));		
 	}
 }
