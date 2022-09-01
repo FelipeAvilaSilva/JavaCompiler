@@ -1,3 +1,6 @@
+//Classe principal
+//Felipe Avila Silva
+
 class Compilador{
 
 	public static void main(String[]args)
@@ -9,12 +12,18 @@ class Compilador{
 			AnaliseLexica al = new AnaliseLexica(args[0]);
 			Parser as = new Parser(al);
 		
-			arv = as.parseProg();
+			arv = as.parseProg();						
+
 		
+			//Escolher qual executar
 			
-			CodeGen backend = new CodeGen();
+			/*CodeGen backend = new CodeGen();						//Retorna a analise
 			String codigo = backend.geraCodigo(arv);
-			System.out.println(codigo);
+			System.out.println(codigo);*/
+
+			Interpretador interpretador = new Interpretador();		//Retorna o resultado
+			int resultado = interpretador.Interpreta(arv);
+			System.out.println(resultado);
 
 		}catch(Exception e)
 		{			

@@ -1,0 +1,3 @@
+cat teste
+javac *.java
+java Compilador teste
