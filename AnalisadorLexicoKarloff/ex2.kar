@@ -1,0 +1,5 @@
+void main {
+newVar int teste;
+teste = 9;
+System.output (teste);
+}

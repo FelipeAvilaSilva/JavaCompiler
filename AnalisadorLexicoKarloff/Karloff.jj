@@ -1,0 +1,70 @@
+PARSER_BEGIN(Karloff)
+import java.io.*;
+public class Karloff {
+
+  public static void main(String args[]) throws ParseException,IOException {
+    
+ Karloff analisador = new Karloff(new FileInputStream(args[0]));
+ analisador.Karloff();
+  }
+}
+
+PARSER_END(Karloff)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{
+  <MAIN: "main">
+| <ACHAVES: "{">
+| <FCHAVES: "}">
+| <APARENT: "(">
+| <FPARENT: ")">
+| <VARDECL: "newVar">
+| <INT: "int">
+| <BOOL: "bool">
+| <PVIRG: ";">
+| <ATRIB: "=">
+| <SOUT: "System.output">
+}
+
+TOKEN :
+{
+  <NUM : (["0"-"9"])+>
+| < ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"])*>
+| <MATHOP: ["+", "-", "*", "/"]>
+| <LOGICOP: "&&" | "||" | "==" | "<" | ">">
+| <BOOLVALUE: "true" | "false">
+}
+
+
+void Karloff () :
+{Token t;}
+{
+
+(
+  <MAIN> { System.out.println("Palavra reservada: main");}
+| <ACHAVES> { System.out.println("Abre chaves: {");}
+| <FCHAVES> { System.out.println("Fecha chaves: }");}
+| <APARENT> { System.out.println("Abre paranteses: (");}
+| <FPARENT> { System.out.println("Abre paranteses: )");}
+| <VARDECL> { System.out.println("Palavra reservada: newVar");}
+| <INT> { System.out.println("Palavra reservada: int");}
+| <BOOL> { System.out.println("Palavra reservada: bool");}
+| <PVIRG> { System.out.println("Ponto e virgula: ;");}
+| <ATRIB> { System.out.println("Atribuicao: =");}
+| <SOUT> { System.out.println("Palavra reservada: System.out.println");}
+
+| t=<NUM> { System.out.println("Número: "+ t.image);}
+| t=<ID> { System.out.println("Identificador: "+ t.image);}
+| t=<MATHOP> {System.out.println("OP matematico: "+ t.image);}
+| t=<LOGICOP> {System.out.println("OP logico: "+ t.image);}
+)*
+<EOF> 
+}
