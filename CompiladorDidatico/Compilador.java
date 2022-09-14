@@ -17,13 +17,13 @@ class Compilador{
 		
 			//Escolher qual executar
 			
-			/*CodeGen backend = new CodeGen();						//Retorna a analise
+			CodeGen backend = new CodeGen();						//Retorna a analise
 			String codigo = backend.geraCodigo(arv);
-			System.out.println(codigo);*/
-
-			Interpretador interpretador = new Interpretador();		//Retorna o resultado
-			int resultado = interpretador.Interpreta(arv);
-			System.out.println(resultado);
+			System.out.println(codigo);
+// 
+			// Interpretador interpretador = new Interpretador();		//Retorna o resultado
+			// int resultado = interpretador.Interpreta(arv);
+			// System.out.println(resultado);
 
 		}catch(Exception e)
 		{			
